@@ -281,4 +281,5 @@ docs/               # Requirements and design analysis
 
 ## License
 
-Apache License 2.0. See [LICENSE](LICENSE).
+- **Original source code**: Apache License 2.0. See [LICENSE](LICENSE).
+- **Windows executable**: statically links GPL-3.0 components (`golang-evtx`, `golang-utils`), so the combined `GLog.exe` binary is distributed under **GPL-3.0**. The full license text is in [LICENSE-GPL-3.0](LICENSE-GPL-3.0); the complete corresponding source is this repository. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for details.

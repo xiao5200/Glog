@@ -281,4 +281,5 @@ docs/               # 需求与设计分析
 
 ## 许可证
 
-Apache License 2.0，详见 [LICENSE](LICENSE)。
+- **原创源代码**：Apache License 2.0，详见 [LICENSE](LICENSE)。
+- **Windows 可执行文件**：静态链接 GPL-3.0 组件（`golang-evtx`、`golang-utils`），因此合并后的 `GLog.exe` 按 **GPL-3.0** 分发。GPL-3.0 全文见 [LICENSE-GPL-3.0](LICENSE-GPL-3.0)，对应源代码即本仓库；第三方组件明细见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
