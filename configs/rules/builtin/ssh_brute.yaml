@@ -1,0 +1,39 @@
+id: builtin-ssh-brute
+name: SSH暴力破解
+description: 检测短时间内来自同一来源的大量 SSH 登录失败尝试
+version: "1.0"
+author: GLog Team
+severity: high
+enabled: true
+tags:
+  - brute_force
+  - ssh
+  - authentication
+mitre_attack:
+  tactics:
+    - Credential Access
+  techniques:
+    - T1110.001
+detection:
+  filter:
+    - field: message
+      op: contains
+      value:
+        - "Failed password"
+        - "authentication failure"
+        - "Invalid user"
+      match: any
+  group_by:
+    - fields.remote_addr
+  condition: count > 10 within 5m
+actions:
+  tags:
+    - brute_force
+    - ssh
+  risk_score: 85
+  alert:
+    title: 检测到 SSH 暴力破解尝试
+    message: 同一来源在 5 分钟内失败登录超过 10 次
+examples:
+  - "sshd[12345]: Failed password for root from 192.168.1.100 port 22 ssh2"
+  - "sshd[12346]: authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=10.0.0.5"

@@ -1,0 +1,122 @@
+# GLog 内置中间件日志路径预设
+#
+# 字段与 models.MiddlewarePreset 对应：
+#   name / description / category / windows_paths / linux_paths /
+#   template_id / multiline
+#
+# 兼容说明：当前 pkg/models.MiddlewarePreset 未声明 yaml tag，
+# gopkg.in/yaml.v3 会按字段名小写（windowspaths/linuxpaths/templateid）匹配。
+# 因此每组同时提供设计文档 9.2 的 snake_case 键与兼容键，值通过 YAML 锚点复用。
+# 若后续为模型补充 yaml tag，兼容键会被 yaml 解码器忽略，不影响使用。
+presets:
+  - name: Nginx
+    description: Nginx Web服务器日志
+    category: web_server
+    windows_paths: &nginx_windows
+      - C:\nginx\logs\access.log
+      - C:\nginx\logs\error.log
+    linux_paths: &nginx_linux
+      - /var/log/nginx/access.log
+      - /var/log/nginx/error.log
+      - /usr/local/nginx/logs/access.log
+    template_id: nginx-combined
+    multiline: false
+    windowspaths: *nginx_windows
+    linuxpaths: *nginx_linux
+    templateid: nginx-combined
+
+  - name: MySQL
+    description: MySQL数据库错误日志
+    category: database
+    windows_paths: &mysql_windows
+      - C:\ProgramData\MySQL\MySQL Server 8.0\Data\*.err
+      - C:\ProgramData\MySQL\MySQL Server 8.0\Data\*-slow.log
+    linux_paths: &mysql_linux
+      - /var/log/mysql/error.log
+      - /var/log/mysql/slow.log
+      - /var/lib/mysql/*.err
+    template_id: mysql-error
+    multiline: true
+    windowspaths: *mysql_windows
+    linuxpaths: *mysql_linux
+    templateid: mysql-error
+
+  - name: Docker
+    description: Docker容器日志
+    category: container
+    windows_paths: &docker_windows []
+    linux_paths: &docker_linux
+      - /var/lib/docker/containers/*/*.log
+    template_id: docker-json
+    multiline: false
+    windowspaths: *docker_windows
+    linuxpaths: *docker_linux
+    templateid: docker-json
+
+  - name: Apache
+    description: Apache Web服务器日志
+    category: web_server
+    windows_paths: &apache_windows
+      - C:\Apache24\logs\access.log
+      - C:\Apache24\logs\error.log
+    linux_paths: &apache_linux
+      - /var/log/apache2/access.log
+      - /var/log/apache2/error.log
+      - /var/log/httpd/access_log
+      - /var/log/httpd/error_log
+    template_id: apache-combined
+    multiline: false
+    windowspaths: *apache_windows
+    linuxpaths: *apache_linux
+    templateid: apache-combined
+
+  - name: Redis
+    description: Redis内存数据库日志
+    category: database
+    windows_paths: &redis_windows
+      - C:\Redis\logs\redis-server.log
+    linux_paths: &redis_linux
+      - /var/log/redis/redis-server.log
+    template_id: redis
+    multiline: false
+    windowspaths: *redis_windows
+    linuxpaths: *redis_linux
+    templateid: redis
+
+  - name: Kafka
+    description: Kafka消息队列日志
+    category: middleware
+    windows_paths: &kafka_windows []
+    linux_paths: &kafka_linux
+      - /var/log/kafka/server.log
+      - /var/log/kafka/controller.log
+    template_id: kafka
+    multiline: true
+    windowspaths: *kafka_windows
+    linuxpaths: *kafka_linux
+    templateid: kafka
+
+  - name: PostgreSQL
+    description: PostgreSQL数据库日志
+    category: database
+    windows_paths: &postgresql_windows
+      - C:\Program Files\PostgreSQL\*\data\log\*.log
+    linux_paths: &postgresql_linux
+      - /var/log/postgresql/postgresql-*.log
+    template_id: postgresql
+    multiline: true
+    windowspaths: *postgresql_windows
+    linuxpaths: *postgresql_linux
+    templateid: postgresql
+
+  - name: Elasticsearch
+    description: Elasticsearch搜索引擎日志
+    category: search
+    windows_paths: &elasticsearch_windows []
+    linux_paths: &elasticsearch_linux
+      - /var/log/elasticsearch/*.log
+    template_id: elasticsearch
+    multiline: true
+    windowspaths: *elasticsearch_windows
+    linuxpaths: *elasticsearch_linux
+    templateid: elasticsearch

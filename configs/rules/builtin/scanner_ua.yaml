@@ -1,0 +1,41 @@
+id: builtin-scanner-ua
+name: 扫描器User-Agent
+description: 检测 sqlmap、nikto、nmap、masscan 等常见扫描工具的 User-Agent
+version: "1.0"
+author: GLog Team
+severity: medium
+enabled: true
+tags:
+  - scanner
+  - recon
+  - user_agent
+mitre_attack:
+  tactics:
+    - Reconnaissance
+  techniques:
+    - T1595
+detection:
+  filter:
+    - field: fields.user_agent
+      op: contains
+      value:
+        - sqlmap
+        - nikto
+        - nmap
+        - masscan
+        - acunetix
+        - nessus
+        - burp
+      match: any
+  condition: count > 0
+actions:
+  tags:
+    - scanner
+    - recon
+  risk_score: 60
+  alert:
+    title: 检测到扫描器访问
+    message: 请求的 User-Agent 命中常见扫描工具特征
+examples:
+  - "Mozilla/5.0 (compatible; Nmap Scripting Engine)"
+  - "sqlmap/1.7.2#stable (https://sqlmap.org)"

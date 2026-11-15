@@ -1,0 +1,27 @@
+# build artifacts
+build/bin/
+dist/
+frontend/dist/
+frontend/node_modules/
+node_modules/
+
+# local runtime data (never commit credentials/logs)
+data/
+*.db
+*.db-shm
+*.db-wal
+*.log
+
+# session artifacts / secrets (never commit)
+build/prev_user_messages.md
+设计文档.md
+*.key
+*.pem
+.env
+.env.*
+
+# editor / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,27 @@
+id: sshd
+name: OpenSSH Auth Log
+description: Linux auth.log 中的 sshd 登录成功/失败记录，捕获客户端 IP、用户名与完整消息，默认级别 INFO。
+type: builtin
+category: auth
+format: regex
+priority: 75
+regex: '^([A-Z][a-z]{2} [ 0-9]\d? \d{2}:\d{2}:\d{2}) (\S+) sshd\[(\d+)\]: ((?:Failed|Accepted) \w+ for (?:invalid user )?(\S+) from (\S+) port (\d+).*)$'
+field_map:
+  timestamp: 1
+  host: 2
+  pid: 3
+  message: 4
+  user: 5
+  remote_addr: 6
+  port: 7
+time_format: 'Jan _2 15:04:05'
+time_field: timestamp
+level_field: ''
+level_map: {}
+level_extraction:
+  field: message
+  rules: []
+  default: INFO
+examples:
+  - 'Oct 10 14:00:01 web-01 sshd[12345]: Failed password for invalid user admin from 203.0.113.5 port 54321 ssh2'
+  - 'Oct 10 14:00:02 web-01 sshd[12346]: Accepted publickey for root from 192.0.2.10 port 60022 ssh2: RSA SHA256:abc'

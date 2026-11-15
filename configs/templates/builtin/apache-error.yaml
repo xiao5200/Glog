@@ -1,0 +1,31 @@
+id: apache-error
+name: Apache Error
+description: Apache httpd error_log 默认格式，捕获时间、级别、pid/tid、客户端与消息。
+type: builtin
+category: web_server
+format: regex
+priority: 82
+regex: '^\[([^\]]+)\] \[(\w+)\](?: \[pid (\d+)(?::tid (\d+))?\])?(?: \[client ([^\]]+)\])? (.*)$'
+field_map:
+  time: 1
+  level: 2
+  pid: 3
+  tid: 4
+  client: 5
+  message: 6
+time_format: 'Mon Jan _2 15:04:05.000000 2006'
+time_field: time
+level_field: level
+level_map:
+  debug: DEBUG
+  info: INFO
+  notice: INFO
+  warn: WARN
+  error: ERROR
+  crit: CRITICAL
+  alert: CRITICAL
+  emerg: CRITICAL
+examples:
+  - '[Thu Oct 10 14:00:01.123456 2024] [error] [pid 1234:tid 5678] [client 127.0.0.1:54321] AH01276: Cannot serve directory /var/www/: No matching DirectoryIndex'
+  - '[Thu Oct 10 14:00:02.000001 2024] [warn] [pid 1234:tid 5678] [client 192.0.2.5:5555] AH10000: something odd'
+  - '[Thu Oct 10 14:00:03.000002 2024] [notice] [pid 1234:tid 5678] [client 192.0.2.6:5556] AH00000: ready'

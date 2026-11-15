@@ -1,0 +1,26 @@
+id: kafka
+name: Kafka Server Log
+description: Kafka server.log，[yyyy-MM-dd HH:mm:ss,SSS] 级别 消息，支持多行堆栈合并。
+type: builtin
+category: middleware
+format: regex
+priority: 70
+regex: '^\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3})\] (\w+) ([\s\S]*)$'
+field_map:
+  timestamp: 1
+  level: 2
+  message: 3
+time_format: '2006-01-02 15:04:05,000'
+time_field: timestamp
+level_field: level
+level_map: {}
+multiline:
+  enabled: true
+  pattern: '^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}\]'
+  negate: false
+  match: after
+  max_lines: 500
+  timeout_ms: 5000
+examples:
+  - '[2024-10-10 14:00:01,123] INFO [KafkaServer id=1] started (kafka.server.KafkaServer)'
+  - '[2024-10-10 14:00:02,456] ERROR [KafkaServer id=1] Fatal error during startup (kafka.server.KafkaServer)'

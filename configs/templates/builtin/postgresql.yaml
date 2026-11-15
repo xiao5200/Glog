@@ -1,0 +1,35 @@
+id: postgresql
+name: PostgreSQL Server Log
+description: PostgreSQL stderr 日志，支持带时区缩写的时间、[pid]、可选 user/db 前缀与级别，支持多行语句合并。
+type: builtin
+category: database
+format: regex
+priority: 70
+regex: '^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(?:\.\d+)?(?: [A-Z]{2,5})?) \[(\d+)\](?:: [^\n]*?)? (\w+):\s+([\s\S]*)$'
+field_map:
+  timestamp: 1
+  pid: 2
+  level: 3
+  message: 4
+time_format: ''
+time_field: timestamp
+level_field: level
+level_map:
+  debug: DEBUG
+  info: INFO
+  log: INFO
+  notice: INFO
+  warning: WARN
+  error: ERROR
+  fatal: FATAL
+  panic: CRITICAL
+multiline:
+  enabled: true
+  pattern: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}'
+  negate: false
+  match: after
+  max_lines: 500
+  timeout_ms: 5000
+examples:
+  - '2024-10-10 14:00:01.123 CST [12345] ERROR:  relation "users" does not exist'
+  - '2024-10-10 14:00:02.456 CST [12346]: user=admin,db=app LOG:  duration: 12.3 ms  statement: SELECT 1'

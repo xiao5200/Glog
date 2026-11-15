@@ -1,0 +1,33 @@
+id: builtin-port-scan
+name: 端口扫描
+description: 检测日志中明确的端口扫描、SYN 扫描与 nmap/masscan 活动
+version: "1.0"
+author: GLog Team
+severity: medium
+enabled: true
+tags:
+  - port_scan
+  - recon
+  - network
+mitre_attack:
+  tactics:
+    - Discovery
+  techniques:
+    - T1046
+detection:
+  filter:
+    - field: message
+      op: regex
+      value: '(?i)(port\s*scan|syn\s*scan|nmap|masscan)'
+  condition: count > 20 within 5m
+actions:
+  tags:
+    - port_scan
+    - recon
+  risk_score: 60
+  alert:
+    title: 检测到端口扫描活动
+    message: 5 分钟内出现超过 20 条端口扫描特征日志
+examples:
+  - "nmap scan report for 10.0.0.5"
+  - "Possible port scan detected from 192.168.1.20"

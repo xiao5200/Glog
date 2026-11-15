@@ -1,0 +1,35 @@
+id: builtin-sensitive-file-access
+name: 敏感文件访问
+description: 检测 /etc/shadow、/etc/sudoers、SAM、NTDS.dit、SSH 私钥等敏感文件访问
+version: "1.0"
+author: GLog Team
+severity: high
+enabled: true
+tags:
+  - credential_access
+  - sensitive_file
+  - discovery
+mitre_attack:
+  tactics:
+    - Credential Access
+    - Discovery
+  techniques:
+    - T1003
+    - T1552.001
+detection:
+  filter:
+    - field: message
+      op: regex
+      value: '(?i)(/etc/shadow|/etc/sudoers|sam\s+file|ntds\.dit|\.ssh/id_rsa)'
+  condition: count > 0
+actions:
+  tags:
+    - credential_access
+    - sensitive_file
+  risk_score: 85
+  alert:
+    title: 检测到敏感文件访问
+    message: 日志中出现系统凭据或私钥文件路径
+examples:
+  - "cat /etc/shadow"
+  - "reg save HKLM\\SAM C:\\Windows\\Temp\\sam.hiv"

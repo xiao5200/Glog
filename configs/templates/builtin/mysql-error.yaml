@@ -1,0 +1,32 @@
+id: mysql-error
+name: MySQL Error Log
+description: MySQL 8 默认 error log，ISO 时间 + 线程号 + [级别] + 消息，支持多行消息合并。
+type: builtin
+category: database
+format: regex
+priority: 70
+regex: '^(\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})?) (\d+) \[(\w+)\] ([\s\S]*)$'
+field_map:
+  timestamp: 1
+  thread_id: 2
+  level: 3
+  message: 4
+time_format: '2006-01-02T15:04:05.000000-07:00'
+time_field: timestamp
+level_field: level
+level_map:
+  error: ERROR
+  warning: WARN
+  warn: WARN
+  note: INFO
+  system: INFO
+multiline:
+  enabled: true
+  pattern: '^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}'
+  negate: false
+  match: after
+  max_lines: 500
+  timeout_ms: 5000
+examples:
+  - '2024-10-10T14:00:01.123456+08:00 0 [ERROR] [MY-010123] [Server] Something failed'
+  - '2024-10-10T14:00:02.000000+08:00 8 [Warning] [MY-010055] [Server] IP address could not be resolved'

@@ -1,0 +1,34 @@
+id: builtin-webshell
+name: WebShell上传与执行特征
+description: 检测脚本文件配合 eval、exec、system、assert 等危险函数的请求
+version: "1.0"
+author: GLog Team
+severity: critical
+enabled: true
+tags:
+  - webshell
+  - upload
+  - web
+mitre_attack:
+  tactics:
+    - Persistence
+    - Execution
+  techniques:
+    - T1505.003
+detection:
+  filter:
+    - field: message
+      op: regex
+      value: '(?i)(\.php|\.jsp|\.aspx).*(eval|exec|system|assert)'
+  condition: count > 0
+actions:
+  tags:
+    - webshell
+    - persistence
+  risk_score: 95
+  alert:
+    title: 检测到疑似 WebShell
+    message: 请求中出现脚本后缀与危险函数组合
+examples:
+  - "POST /upload/shell.php HTTP/1.1 200 cmd=system"
+  - "GET /images/x.jsp?cmd=exec('id') HTTP/1.1"

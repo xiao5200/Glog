@@ -1,0 +1,32 @@
+id: redis
+name: Redis Server Log
+description: Redis server 日志（pid:role date time level-char message），级别字符 . - * # 分别对应 debug/info/notice/warning。
+type: builtin
+category: cache
+format: regex
+priority: 70
+regex: '^(\d+):([A-Z]) (\d{1,2} \w{3} \d{4} \d{2}:\d{2}:\d{2}\.\d{3}) ([.\-*#]) ([\s\S]*)$'
+field_map:
+  pid: 1
+  role: 2
+  time: 3
+  level: 4
+  message: 5
+time_format: '2 Jan 2006 15:04:05.000'
+time_field: time
+level_field: level
+level_map:
+  ".": DEBUG
+  "-": INFO
+  "*": INFO
+  "#": WARN
+multiline:
+  enabled: true
+  pattern: '^\d+:[A-Z] '
+  negate: false
+  match: after
+  max_lines: 500
+  timeout_ms: 5000
+examples:
+  - '1:M 10 Oct 2024 14:00:01.123 * Ready to accept connections'
+  - '1:M 10 Oct 2024 14:00:05.456 # Background saving error'

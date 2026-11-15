@@ -1,0 +1,33 @@
+id: nginx-error
+name: Nginx Error
+description: Nginx error_log 默认格式，捕获时间、级别、进程、线程与消息。
+type: builtin
+category: web_server
+format: regex
+priority: 85
+regex: '^(\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}) \[(\w+)\] (\d+)#(\d+): (?:\*\d+ )?(.*)$'
+field_map:
+  time: 1
+  level: 2
+  pid: 3
+  tid: 4
+  message: 5
+time_format: '2006/01/02 15:04:05'
+time_field: time
+level_field: level
+level_map:
+  debug: DEBUG
+  info: INFO
+  notice: INFO
+  warn: WARN
+  error: ERROR
+  crit: CRITICAL
+  alert: CRITICAL
+  emerg: CRITICAL
+level_extraction:
+  field: level
+  rules: []
+  default: INFO
+examples:
+  - '2024/10/10 14:00:01 [error] 12345#12345: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 127.0.0.1'
+  - '2024/10/10 14:00:02 [warn] 12346#0: conflicting server name "example.com" on 0.0.0.0:80, ignored'

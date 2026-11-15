@@ -1,0 +1,33 @@
+id: builtin-sqli
+name: SQL注入特征
+description: 检测日志中常见的 SQL 注入语句与数据库探测特征
+version: "1.0"
+author: GLog Team
+severity: high
+enabled: true
+tags:
+  - sqli
+  - injection
+  - web
+mitre_attack:
+  tactics:
+    - Initial Access
+  techniques:
+    - T1190
+detection:
+  filter:
+    - field: message
+      op: regex
+      value: '(?i)(union\s+select|or\s+1\s*=\s*1|sleep\s*\(|information_schema|xp_cmdshell)'
+  condition: count > 0 within 1m
+actions:
+  tags:
+    - sqli
+    - web_attack
+  risk_score: 90
+  alert:
+    title: 检测到 SQL 注入特征
+    message: 日志中出现 SQL 注入或数据库探测语句
+examples:
+  - "GET /item.php?id=1%20UNION%20SELECT%20username,password%20FROM%20users HTTP/1.1"
+  - "GET /login?user=admin'%20OR%201=1-- HTTP/1.1"

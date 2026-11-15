@@ -1,0 +1,38 @@
+id: builtin-sudo-fail
+name: sudo认证失败
+description: 检测短时间内多次 sudo 认证失败或用户不在 sudoers 中的情况
+version: "1.0"
+author: GLog Team
+severity: medium
+enabled: true
+tags:
+  - sudo
+  - authentication
+  - privilege_escalation
+mitre_attack:
+  tactics:
+    - Privilege Escalation
+  techniques:
+    - T1548.003
+    - T1078
+detection:
+  filter:
+    - field: message
+      op: contains
+      value:
+        - "authentication failure"
+        - "incorrect password"
+        - "NOT in sudoers"
+      match: any
+  condition: count > 5 within 5m
+actions:
+  tags:
+    - sudo
+    - privilege_escalation
+  risk_score: 70
+  alert:
+    title: 检测到 sudo 认证失败
+    message: 5 分钟内出现多次 sudo 认证失败
+examples:
+  - "sudo: pam_unix(sudo:auth): authentication failure; logname=user uid=1000"
+  - "user : user is not allowed to run sudo; TTY=pts/0 ; user NOT in sudoers"

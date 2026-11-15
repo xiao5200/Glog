@@ -1,0 +1,37 @@
+id: builtin-win-4688
+name: Windows可疑进程创建
+description: 检测 PowerShell、cmd、wscript、mshta 等结合编码或远程下载参数的进程创建
+version: "1.0"
+author: GLog Team
+severity: high
+enabled: true
+tags:
+  - windows
+  - process_creation
+  - event_4688
+mitre_attack:
+  tactics:
+    - Execution
+  techniques:
+    - T1059
+    - T1059.001
+detection:
+  filter:
+    - field: event_id
+      op: eq
+      value: 4688
+    - field: message
+      op: regex
+      value: '(?i)(powershell|cmd\.exe|wscript|cscript|mshta|rundll32).*(-enc|-nop|http)'
+  condition: count > 0
+actions:
+  tags:
+    - windows
+    - execution
+    - suspicious_process
+  risk_score: 80
+  alert:
+    title: 检测到可疑进程创建
+    message: 进程命令行包含编码、免配置或远程下载特征
+examples:
+  - "EventID=4688 New Process Name: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe CommandLine: powershell -nop -enc SQBFAFgA"

@@ -1,0 +1,32 @@
+id: windows-cbs
+name: Windows 组件日志（CBS/DISM）
+description: Windows 组件服务与 DISM 常见文本格式，例如 CBS.log；捕获时间、级别、组件与消息。
+type: builtin
+category: system
+format: regex
+priority: 45
+regex: '^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}),\s+([A-Za-z]+)\s+([A-Za-z0-9_.-]+)\s+(.*)$'
+field_map:
+  timestamp: 1
+  level: 2
+  component: 3
+  message: 4
+time_format: '2006-01-02 15:04:05'
+time_field: timestamp
+level_field: level
+level_map:
+  info: INFO
+  information: INFO
+  warning: WARN
+  warn: WARN
+  error: ERROR
+  critical: CRITICAL
+  verbose: DEBUG
+  debug: DEBUG
+level_extraction:
+  field: level
+  rules: []
+  default: INFO
+examples:
+  - '2026-11-11 11:18:57, Info                  CBS    TI: --- Initializing Trusted Installer ---'
+  - '2026-11-11 11:19:02, Error                 CBS    Failed to process package. HRESULT = 0x800f081f'

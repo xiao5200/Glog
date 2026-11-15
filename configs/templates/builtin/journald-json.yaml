@@ -1,0 +1,28 @@
+id: journald-json
+name: systemd Journal (JSON)
+description: journalctl -o json 输出；MESSAGE 作为消息，__REALTIME_TIMESTAMP（微秒）作为时间，PRIORITY 映射级别。
+type: builtin
+category: system
+format: json
+priority: 20
+regex: ''
+field_map: {}
+time_format: ''
+time_field: __REALTIME_TIMESTAMP
+level_field: PRIORITY
+level_map: {}
+level_extraction:
+  field: PRIORITY
+  rules:
+    - range: [0, 3]
+      level: ERROR
+    - range: [4, 4]
+      level: WARN
+    - range: [5, 6]
+      level: INFO
+    - range: [7, 7]
+      level: DEBUG
+  default: INFO
+examples:
+  - '{"__REALTIME_TIMESTAMP":"1728504001123456","PRIORITY":"6","MESSAGE":"Started Session 42 of user root.","_HOSTNAME":"web-01","_SYSTEMD_UNIT":"session-42.scope","SYSLOG_IDENTIFIER":"systemd"}'
+  - '{"__REALTIME_TIMESTAMP":"1728504002234567","PRIORITY":"3","MESSAGE":"Failed to start nginx.service: Unit not found.","_HOSTNAME":"web-01","_SYSTEMD_UNIT":"nginx.service","SYSLOG_IDENTIFIER":"systemd"}'

@@ -1,0 +1,28 @@
+id: elasticsearch
+name: Elasticsearch Log
+description: Elasticsearch 默认控制台/文件日志，[ISO 时间][级别 ][logger] [节点] 消息，支持多行堆栈合并。
+type: builtin
+category: search
+format: regex
+priority: 70
+regex: '^\[([^\]]+)\]\[([A-Z]+)\s*\]\[([^\]]*)\]\s*(?:\[([^\]]*)\]\s*)?([\s\S]*)$'
+field_map:
+  timestamp: 1
+  level: 2
+  logger: 3
+  node: 4
+  message: 5
+time_format: '2006-01-02T15:04:05,000'
+time_field: timestamp
+level_field: level
+level_map: {}
+multiline:
+  enabled: true
+  pattern: '^\[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}'
+  negate: false
+  match: after
+  max_lines: 500
+  timeout_ms: 5000
+examples:
+  - '[2024-10-10T14:00:01,123][INFO ][o.e.n.Node               ] [node-1] starting ...'
+  - '[2024-10-10T14:00:02,456][WARN ][o.e.d.c.s.Settings       ] [node-1] [cluster.name] setting was deprecated'

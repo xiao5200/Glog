@@ -1,0 +1,16 @@
+id: docker-json
+name: Docker Container JSON
+description: Docker/containerd 默认 json-file 日志，每行一个对象，log 为消息、stream 为输出流、time 为 RFC3339Nano 时间。
+type: builtin
+category: container
+format: json
+priority: 60
+regex: ''
+field_map: {}
+time_format: ''
+time_field: time
+level_field: ''
+level_map: {}
+examples:
+  - '{"log":"Starting application\n","stream":"stdout","time":"2024-10-10T14:00:01.123456789Z"}'
+  - '{"log":"connection refused\n","stream":"stderr","time":"2024-10-10T14:00:02.000000001Z"}'

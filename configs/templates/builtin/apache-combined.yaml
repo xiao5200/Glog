@@ -1,0 +1,35 @@
+id: apache-combined
+name: Apache Access (Combined)
+description: Apache httpd combined 访问日志，字段布局与 Nginx combined 相同。
+type: builtin
+category: web_server
+format: regex
+priority: 78
+regex: '^(\S+) \S+ \S+ \[([^\]]+)\] "(\S+) (\S+) (\S+)" (\d{3}) (\S+) "([^"]*)" "([^"]*)"'
+field_map:
+  remote_addr: 1
+  time_local: 2
+  method: 3
+  path: 4
+  protocol: 5
+  status: 6
+  bytes: 7
+  referer: 8
+  user_agent: 9
+time_format: '02/Jan/2006:15:04:05 -0700'
+time_field: time_local
+level_field: ''
+level_map: {}
+level_extraction:
+  field: status
+  rules:
+    - range: [200, 399]
+      level: INFO
+    - range: [400, 499]
+      level: WARN
+    - range: [500, 999]
+      level: ERROR
+  default: INFO
+examples:
+  - '192.0.2.1 - - [10/Oct/2024:13:55:36 +0000] "GET /apache_pb.gif HTTP/1.0" 200 2326 "http://www.example.com/start.html" "Mozilla/4.08 [en]"'
+  - '198.51.100.25 - - [10/Oct/2024:13:55:38 +0000] "GET /missing HTTP/1.1" 500 - "-" "curl/8.5.0"'
