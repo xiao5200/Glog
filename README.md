@@ -6,8 +6,6 @@ GLog 是一个本地运行的桌面日志分析工具，面向安全分析师、
 
 > Go 1.26 · Wails v2 · SolidJS · TypeScript · SQLite · LZ4 · Roaring Bitmap
 
-![日志分析工作台](docs/assets/log-workspace.png)
-
 ## 主要能力
 
 - **采集**：本地文件 / 通配符 / 目录递归、`.gz` 自动解压、Windows EVTX 原生解析、Linux journalctl、SSH 远程采集、一键采集系统日志与远程日志检索。

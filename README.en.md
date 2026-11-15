@@ -6,8 +6,6 @@ GLog is a local-first desktop log analysis tool for security analysts, operation
 
 > Stack: Go 1.26 · Wails v2 · SolidJS · TypeScript · TailwindCSS · SQLite (modernc, pure Go) · LZ4 · Roaring Bitmap
 
-![Log analysis workbench](docs/assets/log-workspace.png)
-
 ---
 
 ## Core capabilities
@@ -99,8 +97,6 @@ On startup, GLog scans common local log locations and shows a summary on the Pro
 
 The complete discovery list is available under **Collection → Local Files**: click an item to fill in its path and suggested template; after collection it becomes a project log source.
 
-![Local log discovery](docs/assets/local-discovery.png)
-
 ---
 
 ## Query syntax
@@ -149,8 +145,6 @@ Hover a row in the log list and click the **independent page** button (or click 
 - **Field table**: inspect every field value in full (nested objects are formatted).
 - Previous/next navigation and back-to-list, preserving the original query and scroll position; metadata and adjacent logs are shown on the right.
 
-![Full log view](docs/assets/log-detail.png)
-
 ---
 
 ## Single-entry AI analysis
@@ -180,10 +174,6 @@ The **AI analysis** button on the workbench also provides a scope-oriented panel
 - **Detection results**: select the last 15 minutes / 1 hour / 24 hours / 7 days / all, or a custom range, then run AI analysis on sampled logs. The result shows risk level, assessment summary, key findings, remediation advice, and anomalous entries; anomalous entries can jump to their log details by DocID. Results are persisted per project and are not re-run automatically when the page is reopened; only **Start detection** calls the AI again.
 - **Network connections**: reads current listening ports, all/outbound connections, processes, and external IPs, marking externally exposed ports such as `0.0.0.0` / `::`; supports manual refresh and 5-second live refresh.
 - The UI no longer provides an IOC library or built-in detection rules; threat detection is AI-driven.
-
-![AI detection results](docs/assets/threat-detection.png)
-
-![Network connections and external IPs](docs/assets/network-connections.png)
 
 ---
 

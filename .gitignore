@@ -16,6 +16,7 @@ data/
 # session artifacts / secrets (never commit)
 build/prev_user_messages.md
 设计文档.md
+docs/assets/
 *.key
 *.pem
 .env
